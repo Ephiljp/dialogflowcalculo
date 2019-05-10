@@ -1,0 +1,50 @@
+function enviar(agent) {
+    
+   
+    const tamanho=agent.parameters.tamanhopizza;
+    const quantidade=agent.parameters.qtdpizza;
+    var total=agent.parameters.total;
+      if(tamanho==='G'){
+        total=36.90*quantidade;
+      }
+      else if(tamanho==='GG'){
+        total=44.90*quantidade;
+      }
+      else if(tamanho==='M'){
+        total=27.90*quantidade;
+      }
+      else if(tamanho==='P'){
+      total=19.90*quantidade;
+      }
+    var newKey = admin.database().ref().child('Pedido').push().key;
+    admin.database().ref('Pedido/'+newKey).set({
+        nome: agent.parameters.nome,
+      	telefone: agent.parameters.telefone,
+      	qtdpizza: agent.parameters.qtdpizza,
+      	saborpizza: agent.parameters.saborpizza,
+      	tamanhopizza: agent.parameters.tamanhopizza,
+      	endereco: agent.parameters.endereco,
+      	pagamento: agent.parameters.pagamento,
+      	total: agent.parameters.total,
+      	
+    });
+	agent.add('Seu pedido: '+'\n'+
+
+'CLIENTE: ' +agent.parameters.nome +'\n'+
+'TELEFONE: '+agent.parameters.telefone +'\n'+
+'EMAIL: ' +agent.parameters.email +'\n'+
+'QUANTIDADE DE PIZZA(S): ' +agent.parameters.qtdpizza +'\n'+
+'PIZZA(S): ' +agent.parameters.saborpizza+'\n'+
+'TAMANHO: ' +agent.parameters.tamanhopizza+'\n'+
+'LOCAL DE ENTREGA: ' +agent.parameters.endereco+'\n'+
+'PAGAMENTO: ' +agent.parameters.pagamento+'\n'+
+'TOTAL: ' +total +'R$');
+agent.add('Está tudo correto?');
+    	agent.add(new Suggestion('Sim'));
+        agent.add(new Suggestion(`Modificar`));
+        agent.add(new Suggestion('Cancelar'));
+
+
+  
+      
+  }
